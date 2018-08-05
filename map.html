@@ -64,35 +64,35 @@
     function initMap() {
 
          map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 7,
-            center: {lat: 5.94851, lng: 80.53528}
+            zoom: 15,
+            center: {lat: 5.94851, lng: 80.56528}
         });
     }
 
     // Initialize Firebase
     var config = {
-        apiKey: "AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA",
-        authDomain: "marz-fd7c1.firebaseapp.com",
-        databaseURL: "https://marz-fd7c1.firebaseio.com",
-        projectId: "marz-fd7c1",
-        storageBucket: "marz-fd7c1.appspot.com",
-        messagingSenderId: "1009265839737"
+        apiKey: "AIzaSyAt76KTuvqAzeUEQsyh4K3Jp9UxVMhojng",
+        authDomain: "isafe-5e90f.firebaseapp.com",
+        databaseURL: "https://isafe-5e90f.firebaseio.com",
+        projectId: "isafe-5e90f",
+        storageBucket: "isafe-5e90f.appspot.com",
+        messagingSenderId: "496871991366"
     };
     firebase.initializeApp(config);
 
-    //const dbRefObject = firebase.database().ref().child('real_time_data');
     const dbRefObject = firebase.database().ref()
-
-        i = 0;
-        dataArray = [];
-        marker = [];
-        infowindow = [];
+    i = 0;
+    dataArray = [];
+    marker = [];
+    infowindow = [];
 
         dbRefObject.on('child_added', snap => {
             dataArray[i] = snap.val();
 
             infowindow[i] = new google.maps.InfoWindow({
                 content: '<div>'+
+                '<h4>'+snap.val().incident_name+'</h4>'+
+                '<p>Time: '+snap.val().time+'</p>'+
                 '<p>Latitude: '+snap.val().latitude+'</p>'+
                 '<p>Longitude: '+snap.val().longitude+'</p><br>'+
                 '<button id="btn'+i+'" >Remove Incident</button></div>'
@@ -148,9 +148,6 @@
             });
         }
     },3000);
-
-
-
 
 </script>
 <script async defer
