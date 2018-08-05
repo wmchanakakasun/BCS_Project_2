@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untitled Document</title>
+<link href="css/bootstrap-4.0.0.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body style="padding-top: 70px">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light"> <a class="navbar-brand" href="#"><img class="nav_bar_icon" src="img/nav_bar_icon.png" alt="brand-image"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item "> <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a> </li>
+		<li class="nav-item"> <a class="nav-link" href="Map.html">Map</a> </li>
+		<li class="nav-item"> <a class="nav-link" href="#">Statistics</a> </li>
+		<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">List Incidents </a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+				<a class="dropdown-item" href="type1.html">Real-time</a>
+				<a class="dropdown-item" href="type2.html">Static</a>
+			</div>
+		</li>
+      <li class="nav-item"> <a class="nav-link" href="signup.html">Create Account</a> </li>
+      <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Users </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown1"> <a class="dropdown-item" href="#">System Admins</a> <a class="dropdown-item" href="#">Reporters</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a> </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <a href="user.html"><img src="img/avatar.png" alt="avatar" class="rounded-circle" style="width: 50px;padding-right: 10px "></a>
+      <button id="btn-logout" class="btn btn-outline-success my-2 my-sm-0" type="submit">logout</button>
+    </form>
+  </div>
+</nav>
+<div class="user-left"> 
+
+  <div class="user-profile-pic-container" style="width: 40%; margin: auto;  min-height:60px; min-width: 60px;"><img src="img/avatar.png" alt="avatar" class="rounded-circle container d-block" > 
+  </div>
+  <a href="#" class="profile-pic-upload">+Add Image </a>
+  <p>User Name</p>
+
+</div>
+<div class="user-right">
+	<div id="sign-up-form" style=" background:#C4C4C4; padding: 5%">
+	<form>
+    <fieldset class="form-group">
+        <legend><h3>User Profile</h3></legend>
+        <div class="form-group">
+        	<label class="form-control-label">Name:</label>
+        	<div class="flex-row">
+            	<input style="min-width: 300px" class="form-control mb-3 form-inline col-5 d-inline-flex" type="text" placeholder="First">
+            	<input style="min-width: 300px" class="form-control mb-3 form-inline col-5 d-inline-flex" type="text" placeholder="Last">
+				<button type="button" class="btn btn-default btn-xs" >Edit</button>
+          	</div>
+			
+      	</div>
+		<div class="form-group">
+        	<label class="form-control-label">Username:</label>
+        	<div class="flex-row">
+            	<input style="min-width: 300px" class="form-control mb-3 form-inline col-5 d-inline-flex" type="text" placeholder="Username">
+            	<button type="button" class="btn btn-default btn-xs">Edit</button>
+      		</div>
+		</div>
+		<div class="form-group">
+        	<label class="form-control-label">Email:</label>
+        	<div class="flex-row">
+            	<input style="min-width: 300px" class="form-control mb-3 form-inline col-5 d-inline-flex" type="email" placeholder="E-mail">
+				<button type="button" class="btn btn-default btn-xs">Edit</button>
+			</div>
+      	</div>
+		
+			
+		<div class="form-group">
+        	<label class="form-control-label">Password:</label>
+        	<div class="flex-row">
+            	<input style="min-width: 300px" class="form-control mb-3 form-inline col-5 d-inline-flex" type="password" placeholder="Password">
+				<button type="button" class="btn btn-default btn-xs">Edit</button>
+            	
+      		</div>
+		</div>
+		
+		<div class="form-group " style="margin-right: 80%">
+			<label class="form-control-label">Gender:</label>
+			<select style="min-width: 100px" class="form-control mb-1">
+				<option value="male">Male</option>
+				<option value="female">Female</option>				
+			</select>
+			<button type="button" class="btn btn-default btn-xs">Edit</button>
+		</div>
+		<div class="form-group">
+        	<label class="form-control-label">Address:</label>
+        	<div class="flex-row">
+            	<input style="min-width: 300px" class="form-control mb-1 form-inline col-5 d-inline-flex" type="Text" placeholder="Line 1">
+      		</div>
+			<div class="flex-row">
+            	<input  style="min-width: 300px" class="form-control mb-1 form-inline col-5 d-inline-flex" type="Text" placeholder="Line 2">
+      		</div>
+			<div class="flex-row">
+            	<input style="min-width: 300px" class="form-control mb-1 form-inline col-5 d-inline-flex" type="Text" placeholder="Line 3">
+      		</div>
+			<button type="button" class="btn btn-default btn-xs">Edit</button>
+		</div>
+		<div class="form-group">
+        	<label class="form-control-label">Contact:</label>
+        	<div class="flex-row">
+            	<input style="min-width: 300px" class="form-control mb-2  col-5 " type="text" placeholder="Enter mobile number">
+            	<button type="button" class="btn btn-default btn-xs">Edit</button>
+      		</div>
+			
+		</div>
+		
+		
+      </fieldset>
+    <button class="btn btn-primary">Save</button>
+  </form>
+	
+</div>
+</div>
+<script src="js/jquery-3.2.1.min.js"></script> 
+<script src="js/popper.min.js"></script> 
+<script src="js/bootstrap-4.0.0.js"></script>
+</body>
+</html>
