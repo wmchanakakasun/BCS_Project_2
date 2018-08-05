@@ -48,52 +48,77 @@
 		<!-- news feeder begin -->
 		<div class="home-right col-12 col-lg-6">
  	 		<h1>news feeder</h1>
-                <div id="accordion">
-                    
-                    <script>
-                        var i=1;
-
-                        $("document").ready(function(){
-                            setInterval(function () {
-                                var cardHtml = '<div class="card mb-1" style="display: none">'+
-                                    '<div class="card-header" id="heading'+i+'">'+
-                                    '<h5 class="mb-0">'+
-                                    '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse'+i+'" aria-expanded="true" aria-controls="collapse'+i+'">Collapsible Group Item #'+i+
-                                    '</button>'+
-                                    '</h5>'+
-                                    '<h6 class="pl-2" style="inline-block">Time:</h6>'+
-                                    '<h6 class="pl-2" style="inline-block">Location:</h6>'+
-                                    '</div>'+
-                                    '<div id="collapse'+i+'" class="collapse hide" aria-labelledby="heading'+i+'" data-parent="#accordion">'+
-                                    '<div class="card-body">'+
-                                    'Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,'+
-                                    '</div>'+
-                                    '</div>'+
-                                    '</div>';
-
-                                if (i <= 4) {
-                                    $("#accordion").prepend(cardHtml);
-                                    $("#accordion .card:first").show(1000);
-                                } else {
-
-                                    $("#accordion .card:last").hide(1000,function () { $(this).remove() });
-                                    $("#accordion").prepend(cardHtml);
-                                    $("#accordion .card:first").show(1000);
-                                }
-                                i++;
-
-                            }, 3000)
-                        })
-
-                    </script>
-                </div>
+                <div id="accordion"></div>
 	   </div>
         <!-- news feeder end -->
 		
 	<div  id="map" class="home-left col-12 col-lg-6"></div>
 		
 	</div>
-</div>	
+</div>
+<script>
+
+    // Initialize Firebase
+    var config = {
+        /* apiKey: "AIzaSyAt76KTuvqAzeUEQsyh4K3Jp9UxVMhojng",
+        authDomain: "isafe-5e90f.firebaseapp.com",
+        databaseURL: "https://isafe-5e90f.firebaseio.com",
+        projectId: "isafe-5e90f",
+        storageBucket: "isafe-5e90f.appspot.com",
+        messagingSenderId: "496871991366"*/
+
+        apiKey: "AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA",
+        authDomain: "marz-fd7c1.firebaseapp.com",
+        databaseURL: "https://marz-fd7c1.firebaseio.com",
+        projectId: "marz-fd7c1",
+        storageBucket: "marz-fd7c1.appspot.com",
+        messagingSenderId: "1009265839737"
+    };
+    firebase.initializeApp(config);
+
+    i=0;
+    dataArray = [];
+
+
+    const dbRefObject = firebase.database().ref();
+    dbRefObject.orderByChild("time").limitToLast(4).on('child_added', snap => {
+        dataArray[i] = snap.val();
+        let cardHtml = '<div id="cardItem'+i+'" class="card mb-1" style="display: none">'+
+            '<div class="card-header" id="heading'+i+'">'+
+            '<h5 class="mb-0">'+
+            '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse'+i+'" aria-expanded="true" aria-controls="collapse'+i+'">'+
+            '<h4>'+snap.val().incident_name+'</h4>'+
+            '</button>'+
+            '</h5>'+
+            '<h6 class="pl-2" style="inline-block">Date & Time: '+snap.val().time+'</h6>'+
+            '<h6 class="pl-2" style="inline-block">Location:</h6>'+
+            '</div>'+
+            '<div id="collapse'+i+'" class="collapse hide" aria-labelledby="heading'+i+'" data-parent="#accordion">'+
+            '<div class="card-body">'+
+            'Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,'+
+            '</div>'+
+            '</div>'+
+            '</div>';
+
+        $("#accordion").prepend(cardHtml);
+        if(i<4){
+            $("#accordion .card:first").show(i*1000);
+        }else{
+            $("#accordion .card:first").show(1000);
+        }
+
+        i++;
+    });
+    dbRefObject.on('child_removed', snap => {
+        let k = 0;
+        while (snap.val().incident_id !== dataArray[k].incident_id) {
+            k++;
+        }
+        $("#accordion #cardItem"+k).hide(1000,function () { $(this).remove() });
+    });
+
+
+</script>
 <script>
       var map;
       function initMap() {
@@ -105,31 +130,9 @@
       }
 </script> 
     <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7flFVyMxBPVYoRZYppgaO7BGVaMrpm0c&callback=initMap">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA&callback=initMap">
     </script>
-<script>
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyAt76KTuvqAzeUEQsyh4K3Jp9UxVMhojng",
-        authDomain: "isafe-5e90f.firebaseapp.com",
-        databaseURL: "https://isafe-5e90f.firebaseio.com",
-        projectId: "isafe-5e90f",
-        storageBucket: "isafe-5e90f.appspot.com",
 
-    };
-    firebase.initializeApp(config);
-    const dbRefObject = firebase.database().ref();
-    dbRefObject.on('value',snap => console.log(snap.val()));
-
-    function writeUserData(name) {
-        firebase.database().ref().set({
-            username: name,
-        });
-    }
-    //writeUserData('chanaka');
-
-
-</script>
 <script src="js/jquery-3.2.1.min.js"></script> 
 <script src="js/popper.min.js"></script> 
 <script src="js/bootstrap-4.0.0.js"></script>

@@ -10,6 +10,13 @@
 
 
     var config = {
+        /* apiKey: "AIzaSyAt76KTuvqAzeUEQsyh4K3Jp9UxVMhojng",
+        authDomain: "isafe-5e90f.firebaseapp.com",
+        databaseURL: "https://isafe-5e90f.firebaseio.com",
+        projectId: "isafe-5e90f",
+        storageBucket: "isafe-5e90f.appspot.com",
+        messagingSenderId: "496871991366"*/
+
         apiKey: "AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA",
         authDomain: "marz-fd7c1.firebaseapp.com",
         databaseURL: "https://marz-fd7c1.firebaseio.com",
@@ -20,7 +27,7 @@
 
     firebase.initializeApp(config);
 
-    const dbRefObject = firebase.database().ref().child('real_time_data');
+    const dbRefObject = firebase.database().ref();
 
 
    /* firebase.database().ref().child('real_time_data').push({
@@ -42,13 +49,65 @@
 
     })*/
    // const refkey= firebase.database().ref().child('real_time_data').push().key;
-    const refkey= firebase.database().ref().push().key;
+    var refkey= firebase.database().ref().push().key;
     firebase.database().ref(refkey).set({
-        id:refkey,
-        latitude: 6.9271,
-        longitude: 83.8612
+        incident_id: refkey,
+        incident_name: "Flood",
+        latitude: 5.71851,
+        longitude: 80.68528,
+        time: "2018-08-05 20:03:42"
     })
+     refkey= firebase.database().ref().push().key;
+    firebase.database().ref(refkey).set({
+        incident_id: refkey,
+        incident_name: "Accident",
+        latitude: 5.91851,
+        longitude: 80.28528,
+        time: "2018-08-05 21:03:42"
+    })
+    /*
+        refkey= firebase.database().ref().push().key;
+        firebase.database().ref(refkey).set({
+            incident_id: refkey,
+            incident_name: "Closure",
+            latitude: 5.31851,
+            longitude: 80.98528,
+            time: "2018-08-01 22:03:42"
+        })
+         refkey= firebase.database().ref().push().key;
+        firebase.database().ref(refkey).set({
+            incident_id: refkey,
+            incident_name: "Traffic jam",
+            latitude: 5.51851,
+            longitude: 81.28528,
+            time: "2018-08-03 20:03:42"
+        })
 
+    refkey= firebase.database().ref().push().key;
+    firebase.database().ref(refkey).set({
+        incident_id: refkey,
+        incident_name: "Traffic jam",
+        latitude: 6.51851,
+        longitude: 81.28528,
+        time: "2018-08-03 23:03:42"
+    })
+    refkey= firebase.database().ref().push().key;
+    firebase.database().ref(refkey).set({
+        incident_id: refkey,
+        incident_name: "Traffic jam",
+        latitude: 6.21851,
+        longitude: 81.28528,
+        time: "2018-08-02 10:03:42"
+    })
+    refkey= firebase.database().ref().push().key;
+    firebase.database().ref(refkey).set({
+        incident_id: refkey,
+        incident_name: "Traffic jam",
+        latitude: 6.71851,
+        longitude: 81.28528,
+        time: "2018-08-01 22:03:42"
+    })
+    */
 
 </script>
 </body>
