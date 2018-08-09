@@ -76,12 +76,13 @@
     };
     firebase.initializeApp(config);
 
-    i=0;
-    dataArray = [];
+    var i=0;var foo=0;
+    var dataArray = [];
+    var marker = [];
 
 
     const dbRefObject = firebase.database().ref();
-    dbRefObject.orderByChild("time").limitToLast(4).on('child_added', snap => {
+    dbRefObject.orderByChild("time").limitToLast(2).on('child_added', snap => {
         dataArray[i] = snap.val();
         let cardHtml = '<div id="cardItem'+i+'" class="card mb-1" style="display: none">'+
             '<div class="card-header" id="heading'+i+'">'+
@@ -92,6 +93,7 @@
             '</h5>'+
             '<h6 class="pl-2" style="inline-block">Date & Time: '+snap.val().time+'</h6>'+
             '<h6 class="pl-2" style="inline-block">Location:</h6>'+
+            '<button id="btn-card-rmv'+i+'" class="btn-card-rmv btn btn-danger ">Remove</button>'+
             '</div>'+
             '<div id="collapse'+i+'" class="collapse hide" aria-labelledby="heading'+i+'" data-parent="#accordion">'+
             '<div class="card-body">'+
@@ -100,31 +102,71 @@
             '</div>'+
             '</div>';
 
-        $("#accordion").prepend(cardHtml);
-        if(i<4){
-            $("#accordion .card:first").show(i*1000);
+
+        if(foo>0){
+            $("#accordion").append(cardHtml);
+            $("#accordion .card:last").show(1000);
+
+        }else if (i<2){
+
+            $("#accordion").prepend(cardHtml);
+            $("#accordion .card:first").show(i*1000);//multiflied by i for beautiful animation.
+
+
         }else{
-            $("#accordion .card:first").show(1000);
+            $("#accordion").prepend(cardHtml);
+            $("#accordion .card:first").show(1000);//remove the multified i since higher i s get slower to show cards
         }
+
+        let d=i; //let type allows to assign right value to callback function.
+        document.getElementById("btn-card-rmv"+i).addEventListener("click", function() {
+            alert(d);
+            //let n =$(this).attr('id').substring(12) ;
+            firebase.database().ref(dataArray[d].incident_id).remove();
+            foo++;
+        });
+
+
+        marker[i] = new google.maps.Marker({
+            position: {lat: snap.val().latitude, lng: snap.val().longitude},
+            map: map,
+            animation: google.maps.Animation.DROP,
+
+        });
+
+
 
         i++;
     });
+
+
+
     dbRefObject.on('child_removed', snap => {
         let k = 0;
         while (snap.val().incident_id !== dataArray[k].incident_id) {
             k++;
         }
+        //foo=foo+1;
         $("#accordion #cardItem"+k).hide(1000,function () { $(this).remove() });
+         //to append new filling item to the end of feeder
+        marker[k].setMap(null);
     });
 
 
+
 </script>
+<!--
+<script>
+    $("#cardItem1 h4").click(function () {
+        alert("hello1");
+    });
+</script> -->
 <script>
       var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat:  5.94851, lng: 80.53528},
-          zoom: 15
+          zoom: 8
 			
         });
       }

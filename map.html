@@ -113,6 +113,19 @@
             });
 
             i++;
+
+            //remove marker using web interface
+            setTimeout(function () {
+
+                for (let n=0;n<marker.length;n++){
+                    marker[n].addListener('click', function () {
+                        infowindow[n].open(map, marker[n]);
+                        document.getElementById("btn"+n).addEventListener("dblclick", function(){
+                            firebase.database().ref(dataArray[n].incident_id).remove();
+                        });
+                    });
+                }
+            },3000);
         });
     //remove marker when delete marker on mobile device.
     dbRefObject.on('child_removed', snap => {
@@ -126,18 +139,7 @@
     });
 
 
-    //remove marker using web interface
-    setTimeout(function () {
-
-        for (let n=0;n<marker.length;n++){
-            marker[n].addListener('click', function () {
-                infowindow[n].open(map, marker[n]);
-                document.getElementById("btn"+n).addEventListener("dblclick", function(){
-                    firebase.database().ref(dataArray[n].incident_id).remove();
-                });
-            });
-        }
-    },3000);
+   //
 
 </script>
 <script async defer
