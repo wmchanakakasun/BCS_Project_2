@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="css/bootstrap-4.0.0.css" rel="stylesheet" type="text/css">
     <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA&callback=initMap"></script>
     <style>
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
@@ -19,99 +20,53 @@
             padding: 0;
         }
     </style>
+
 </head>
 <body>
+
+    <textarea id="display" rows="4" cols="50">
+
+    </textarea>
 
 <div id="map"></div>
 
 
 
+
+
 <script>
-    function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 7,
-            center:{lat: 5.94851, lng: 80.53528},
-        });
-    }
-    var config = {
-        apiKey: "AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA",
-        authDomain: "marz-fd7c1.firebaseapp.com",
-        databaseURL: "https://marz-fd7c1.firebaseio.com",
-        projectId: "marz-fd7c1",
-        storageBucket: "marz-fd7c1.appspot.com",
-        messagingSenderId: "1009265839737"
-    };
-
-    firebase.initializeApp(config);
-
-   const dbRefObject = firebase.database().ref().child('real_time_data');
 
 
- /*   firebase.database().ref().child('real_time_data').push({
-        latitude:5.94851,
-        longitude:80.53528
+function initMap() {
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: {lat: 5.94851, lng: 80.53528}
     });
-    firebase.database().ref().child('real_time_data').push({
-        latitude:7.34851,
-        longitude:81.53528
-    });
-    firebase.database().ref().child('real_time_data').push({
-        latitude:6.9271,
-        longitude:79.8612
-    }); */
+    var str ="";
 
-    //window.setTimeout(function () {},3000);
-    i=0;
-    dataArray = [];
-    j=0;
-    dataDelete = {};
-    marker = [];
-
-    dbRefObject.on('child_added',snap => {
-            dataArray[i] = snap.val();
-
-
-
-              marker[i++] = new google.maps.Marker({
-                    position: {lat: snap.val().latitude, lng: snap.val().longitude},
-                    map: map,
-                    animation: google.maps.Animation.DROP,
-                });
-                console.log(snap.val().latitude+'  '+snap.val().longitude);
+    // This event listener calls addMarker() when the map is clicked.
+    google.maps.event.addListener(map, 'click', function(event) {
+    addMarker(event.latLng, map);
+     str = str +event.latLng;
+    $("#display").html(str);
 
     });
-  /*  window.setTimeout(function () {
-        marker = [];
-        for (i in dataArray) {
-            marker[i] = new google.maps.Marker({
-                position: {lat: dataArray[i].latitude, lng: dataArray[i].longitude},
-                map: map,
-                animation: google.maps.Animation.DROP,
-                title: dataArray[i].incident_name
-            });
-            console.log(dataArray[i].latitude+'  '+dataArray[i].longitude);
-        }
-    },2000);    */
+
+}
+
+// Adds a marker to the map.
+function addMarker(location, map) {
+    // Add the marker at the clicked location
+   var marker = new google.maps.Marker({
+    position: location,
+    map: map
+});
+}
 
 
-
-
-    dbRefObject.on('child_removed',snap => {
-        dataDelete = snap.val();
-        console.log(snap);
-        k=0;
-        while(snap.val().id !== dataArray[k].id){
-            k++;
-        }
-        marker[k].setMap(null);
-    });
-
-
-
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7flFVyMxBPVYoRZYppgaO7BGVaMrpm0c&callback=initMap">
 </script>
 
 </body>
+
 </html>

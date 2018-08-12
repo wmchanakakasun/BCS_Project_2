@@ -8,6 +8,7 @@
     <link href="css/bootstrap-4.0.0.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
 </head>
 
 <body style="padding-top: 70px">
@@ -124,218 +125,10 @@
 
 <!--card list begin -->
 <div id="card-list" class="container-fluid ">
-      <div class="row ">
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
-                <div class="card pl-3 pr-3 pt-3 mb-3">
-                    <img class="card-img-top" src="img/car-accident.png" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="Incident Type">Card title</h5>
-
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">ID: <span>02458</span></li>
-                        <li class="list-group-item">Time: <span></span><br>Date: <span></span> </li>
-                        <li class="list-group-item">Location: <span></span></li>
-
-                        <div id="collapse1" class="collapse hide" aria-labelledby="heading1" data-parent="">
-
-
-                            <li class="list-group-item">Status: <span></span></li>
-                            <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                        </div>
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                            more
-                        </button>
-                    </ul>
-                </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
-              <div class="card pl-3 pr-3 pt-3 mb-3">
-                  <img class="card-img-top" src="img/car-accident.png" alt="Card image cap">
-                  <div class="card-body">
-                      <h5 class="Incident Type">Card title</h5>
-
-                  </div>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item">ID: <span>02458</span></li>
-                      <li class="list-group-item">Time: <span></span><br>Date: <span></span> </li>
-                      <li class="list-group-item">Location: <span></span></li>
-
-                      <div id="collapse3" class="collapse hide" aria-labelledby="heading1" data-parent="">
-
-
-                          <li class="list-group-item">Status: <span></span></li>
-                          <div class="card-body">
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
-                      </div>
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse1">
-                          more
-                      </button>
-                  </ul>
-              </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
-              <div class="card pl-3 pr-3 pt-3 mb-3">
-                  <img class="card-img-top" src="img/car-accident.png" alt="Card image cap">
-                  <div class="card-body">
-                      <h5 class="Incident Type">Card title</h5>
-
-                  </div>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item">ID: <span>02458</span></li>
-                      <li class="list-group-item">Time: <span></span><br>Date: <span></span> </li>
-                      <li class="list-group-item">Location: <span></span></li>
-
-                      <div id="collapse4" class="collapse hide" aria-labelledby="heading1" data-parent="">
-
-
-                          <li class="list-group-item">Status: <span></span></li>
-                          <div class="card-body">
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
-                      </div>
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse1">
-                          more
-                      </button>
-                  </ul>
-              </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
-              <div class="card pl-3 pr-3 pt-3">
-                  <img class="card-img-top" src="img/car-accident.png" alt="Card image cap">
-                  <div class="card-body">
-                      <h5 class="Incident Type">Card title</h5>
-
-                  </div>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item">ID: <span>02458</span></li>
-                      <li class="list-group-item">Time: <span></span><br>Date: <span></span> </li>
-                      <li class="list-group-item">Location: <span></span></li>
-
-                      <div id="collapse5" class="collapse hide" aria-labelledby="heading1" data-parent="">
-
-
-                          <li class="list-group-item">Status: <span></span></li>
-                          <div class="card-body">
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
-                      </div>
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse1">
-                          more
-                      </button>
-                  </ul>
-              </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
-              <div class="card pl-3 pr-3 pt-3">
-                  <img class="card-img-top" src="img/car-accident.png" alt="Card image cap">
-                  <div class="card-body">
-                      <h5 class="Incident Type">Card title</h5>
-
-                  </div>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item">ID: <span>02458</span></li>
-                      <li class="list-group-item">Time: <span></span><br>Date: <span></span> </li>
-                      <li class="list-group-item">Location: <span></span></li>
-
-                      <div id="collapse6" class="collapse hide" aria-labelledby="heading1" data-parent="">
-
-
-                          <li class="list-group-item">Status: <span></span></li>
-                          <div class="card-body">
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
-                      </div>
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapse6" aria-expanded="true" aria-controls="collapse1">
-                          more
-                      </button>
-                  </ul>
-              </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
-              <div class="card pl-3 pr-3 pt-3">
-                  <img class="card-img-top" src="img/car-accident.png" alt="Card image cap">
-                  <div class="card-body">
-                      <h5 class="Incident Type">Card title</h5>
-
-                  </div>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item">ID: <span>02458</span></li>
-                      <li class="list-group-item">Time: <span></span><br>Date: <span></span> </li>
-                      <li class="list-group-item">Location: <span></span></li>
-
-                      <div id="collapse7" class="collapse hide" aria-labelledby="heading1" data-parent="">
-
-
-                          <li class="list-group-item">Status: <span></span></li>
-                          <div class="card-body">
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
-                      </div>
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapse7" aria-expanded="true" aria-controls="collapse1">
-                          more
-                      </button>
-                  </ul>
-              </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
-              <div class="card pl-3 pr-3 pt-3">
-                  <img class="card-img-top" src="img/car-accident.png" alt="Card image cap">
-                  <div class="card-body">
-                      <h5 class="Incident Type">Card title</h5>
-
-                  </div>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item">ID: <span>02458</span></li>
-                      <li class="list-group-item">Time: <span></span><br>Date: <span></span> </li>
-                      <li class="list-group-item">Location: <span></span></li>
-
-                      <div id="collapse8" class="collapse hide" aria-labelledby="heading1" data-parent="">
-
-
-                          <li class="list-group-item">Status: <span></span></li>
-                          <div class="card-body">
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
-                      </div>
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapse8" aria-expanded="true" aria-controls="collapse1">
-                          more
-                      </button>
-                  </ul>
-              </div>
-          </div>
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
-              <div class="card pl-3 pr-3 pt-3">
-                  <img class="card-img-top" src="img/car-accident.png" alt="Card image cap">
-                  <div class="card-body">
-                      <h5 class="Incident Type">Card title</h5>
-
-                  </div>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item">ID: <span>02458</span></li>
-                      <li class="list-group-item">Time: <span></span><br>Date: <span></span> </li>
-                      <li class="list-group-item">Location: <span></span></li>
-
-                      <div id="collapse2" class="collapse hide" aria-labelledby="heading1" data-parent="">
-
-
-                          <li class="list-group-item">Status: <span></span></li>
-                          <div class="card-body">
-                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
-                      </div>
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse1">
-                          more
-                      </button>
-                  </ul>
-              </div>
-          </div>
-      </div>
-    </div>
+      <div class="row "></div>
+</div>
 <!--card list end -->
+
 
 
 <!-- panigation begin -->
@@ -350,7 +143,59 @@
 </div>
 <!-- panigation end -->
 
+<script>
 
+    // Initialize Firebase
+    var config = {
+        /* apiKey: "AIzaSyAt76KTuvqAzeUEQsyh4K3Jp9UxVMhojng",
+         authDomain: "isafe-5e90f.firebaseapp.com",
+         databaseURL: "https://isafe-5e90f.firebaseio.com",
+         projectId: "isafe-5e90f",
+         storageBucket: "isafe-5e90f.appspot.com",
+         messagingSenderId: "496871991366"*/
+
+        apiKey: "AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA",
+        authDomain: "marz-fd7c1.firebaseapp.com",
+        databaseURL: "https://marz-fd7c1.firebaseio.com",
+        projectId: "marz-fd7c1",
+        storageBucket: "marz-fd7c1.appspot.com",
+        messagingSenderId: "1009265839737"
+    };
+    firebase.initializeApp(config);
+    var dataArray = [];
+    let i;
+    var cardHTML;
+    const dbRefObject = firebase.database().ref();
+    dbRefObject.orderByChild("time").on('child_added', snap => {
+        dataArray[i] = snap.val();
+        cardHTML = '<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">' +
+            '<div class="card pl-3 pr-3 pt-3 mb-3">' +
+            '<img class="card-img-top" src="img/car-accident.png" alt="Card image cap">' +
+            '<div class="card-body">' +
+            '<h5 class="Incident Type">'+snap.val().incident_name+'</h5>' +
+            '</div>' +
+            '<ul class="list-group list-group-flush">' +
+            '<li class="list-group-item">ID: '+snap.val().incident_id+' <span>02458</span></li>' +
+            '<li class="list-group-item">Time: '+ snap.val().time +' <span></span><br>Date: <span></span> </li>' +
+            '<li class="list-group-item">Location: <span></span></li>' +
+            '<div id="collapse'+i+'" class="collapse hide" aria-labelledby="heading'+i+'" data-parent="">' +
+            '<li class="list-group-item">Status: <span></span></li>' +
+            '<div class="card-body">' +
+            '<p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p>' +
+            '</div>' +
+            '</div>' +
+            '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse'+i+'" aria-expanded="true" aria-controls="collapse'+i+'">more' +
+            '</button>' +
+            '</ul>' +
+            '</div>' +
+            '</div>';
+
+        $("#card-list > .row").append(cardHTML);
+
+        i++;
+    });
+
+</script>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap-4.0.0.js"></script>

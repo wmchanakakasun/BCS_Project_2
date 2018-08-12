@@ -104,6 +104,15 @@ h1{
 	background: #9C9393;
 	float:left;
 }
+#accordion {
+	position: relative;
+}
+.btn-card-rmv {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
 /*////profile image change begin */
 
 

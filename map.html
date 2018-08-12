@@ -102,13 +102,14 @@
                 '<p>Time: '+snap.val().time+'</p>'+
                 '<p>Latitude: '+snap.val().latitude+'</p>'+
                 '<p>Longitude: '+snap.val().longitude+'</p><br>'+
-                '<button id="btn'+i+'" >Remove Incident</button></div>'
+                '<button id="btn'+i+'" class="btn btn-danger btn-sm" >Remove Incident</button></div>'
             });
 
             marker[i] = new google.maps.Marker({
                 position: {lat: snap.val().latitude, lng: snap.val().longitude},
                 map: map,
                 animation: google.maps.Animation.DROP,
+                icon: './img/'+snap.val().incident_name+'-pin.png',
 
             });
 

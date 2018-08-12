@@ -82,18 +82,27 @@
 
 
     const dbRefObject = firebase.database().ref();
-    dbRefObject.orderByChild("time").limitToLast(2).on('child_added', snap => {
+    dbRefObject.orderByChild("time").limitToLast(4).on('child_added', snap => {
         dataArray[i] = snap.val();
         let cardHtml = '<div id="cardItem'+i+'" class="card mb-1" style="display: none">'+
             '<div class="card-header" id="heading'+i+'">'+
-            '<h5 class="mb-0">'+
+
+            '<div class="row container-fluid">'+
+            '<div class="col-2">'+
+            '<img src="img/'+snap.val().incident_name+'.png" class="img-fluid" >'+
+            '</div>'+
+            '<div class="col-10" >'+
             '<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse'+i+'" aria-expanded="true" aria-controls="collapse'+i+'">'+
             '<h4>'+snap.val().incident_name+'</h4>'+
             '</button>'+
-            '</h5>'+
+            '</div>'+
+            '<div>'+
+            '</div>'+
+            '<button id="btn-card-rmv'+i+'" class="btn-card-rmv btn btn-danger ">Remove</button>'+
+            '</div>'+
             '<h6 class="pl-2" style="inline-block">Date & Time: '+snap.val().time+'</h6>'+
             '<h6 class="pl-2" style="inline-block">Location:</h6>'+
-            '<button id="btn-card-rmv'+i+'" class="btn-card-rmv btn btn-danger ">Remove</button>'+
+
             '</div>'+
             '<div id="collapse'+i+'" class="collapse hide" aria-labelledby="heading'+i+'" data-parent="#accordion">'+
             '<div class="card-body">'+
@@ -107,7 +116,7 @@
             $("#accordion").append(cardHtml);
             $("#accordion .card:last").show(1000);
 
-        }else if (i<2){
+        }else if (i<4){
 
             $("#accordion").prepend(cardHtml);
             $("#accordion .card:first").show(i*1000);//multiflied by i for beautiful animation.
@@ -120,8 +129,6 @@
 
         let d=i; //let type allows to assign right value to callback function.
         document.getElementById("btn-card-rmv"+i).addEventListener("click", function() {
-            alert(d);
-            //let n =$(this).attr('id').substring(12) ;
             firebase.database().ref(dataArray[d].incident_id).remove();
             foo++;
         });
@@ -131,8 +138,25 @@
             position: {lat: snap.val().latitude, lng: snap.val().longitude},
             map: map,
             animation: google.maps.Animation.DROP,
+            icon: './img/'+snap.val().incident_name+'-pin.png',
 
         });
+
+        //set bounce marker when click on news feeder item
+
+
+        $("button[data-target='#collapse"+d+"']").click(function () {
+            map.setCenter(marker[d].getPosition());
+            map.setZoom(15);
+            if (marker[d].getAnimation() !== null) {
+                marker[d].setAnimation(null);
+
+            } else {
+                marker[d].setAnimation(google.maps.Animation.BOUNCE);
+            }
+
+        });
+
 
 
 
@@ -150,17 +174,14 @@
         $("#accordion #cardItem"+k).hide(1000,function () { $(this).remove() });
          //to append new filling item to the end of feeder
         marker[k].setMap(null);
+        map.setCenter({lat:  5.94851, lng: 80.53528});
+        map.setZoom(8);
     });
 
 
 
 </script>
-<!--
-<script>
-    $("#cardItem1 h4").click(function () {
-        alert("hello1");
-    });
-</script> -->
+
 <script>
       var map;
       function initMap() {

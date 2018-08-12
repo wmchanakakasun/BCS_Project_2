@@ -1,0 +1,273 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untitled Document</title>
+    <link href="css/bootstrap-4.0.0.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <style type="text/css">
+
+        #panel {
+            width: 100%;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            margin: 10px;
+        }
+
+
+
+        .color-button {
+            width: 14px;
+            height: 14px;
+            font-size: 0;
+            margin: 2px;
+            float: left;
+            cursor: pointer;
+        }
+
+        #delete-button {
+            margin-top: 5px;
+        }
+    </style>
+
+</head>
+
+<body style="padding-top: 70px">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light"> <a class="navbar-brand" href="#"><img class="nav_bar_icon" src="img/nav_bar_icon.png" alt="brand-image"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
+            <li class="nav-item"> <a class="nav-link" href="map.html">Map</a> </li>
+            <li class="nav-item"> <a class="nav-link" href="#">Statistics</a> </li>
+            <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">List Incidents </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    <a class="dropdown-item" href="type1.html">Real-time</a>
+                    <a class="dropdown-item" href="type2.html">Static</a>
+                </div>
+            </li>
+            <li class="nav-item"> <a class="nav-link" href="signup.html">Create Account</a> </li>
+            <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Users </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="#">System Admins</a>
+                    <a class="dropdown-item" href="#">Reporters</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <a href="user.html"><img src="img/avatar.png" alt="avatar" class="rounded-circle" style="width: 50px;padding-right: 10px "></a>
+
+            <button id="btn-logout"  class="btn btn-outline-success my-2 my-sm-0" type="submit">logout</button>
+        </form>
+    </div>
+</nav>
+<div class="container-fluid ">
+    <div class="row ">
+        <div  id="map" style="height: 90vh" class="col-10" ></div>
+        <div style="height: 90vh" class="col-2">
+            <div id="panel" >
+                <div id="color-palette"></div>
+                <div>
+                    <button id="delete-button">Delete Selected Shape</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var drawingManager;
+    var selectedShape;
+    var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
+    var selectedColor;
+    var colorButtons = {};
+
+    function clearSelection () {
+        if (selectedShape) {
+            if (selectedShape.type !== 'marker') {
+                selectedShape.setEditable(false);
+            }
+
+            selectedShape = null;
+        }
+    }
+
+    function setSelection (shape) {
+        if (shape.type !== 'marker') {
+            clearSelection();
+            shape.setEditable(true);
+            selectColor(shape.get('fillColor') || shape.get('strokeColor'));
+        }
+
+        selectedShape = shape;
+    }
+
+    function deleteSelectedShape () {
+        if (selectedShape) {
+            selectedShape.setMap(null);
+        }
+    }
+
+    function selectColor (color) {
+        selectedColor = color;
+        for (var i = 0; i < colors.length; ++i) {
+            var currColor = colors[i];
+            colorButtons[currColor].style.border = currColor == color ? '2px solid #789' : '2px solid #fff';
+        }
+
+        // Retrieves the current options from the drawing manager and replaces the
+        // stroke or fill color as appropriate.
+        var polylineOptions = drawingManager.get('polylineOptions');
+        polylineOptions.strokeColor = color;
+        drawingManager.set('polylineOptions', polylineOptions);
+
+        var rectangleOptions = drawingManager.get('rectangleOptions');
+        rectangleOptions.fillColor = color;
+        drawingManager.set('rectangleOptions', rectangleOptions);
+
+        var circleOptions = drawingManager.get('circleOptions');
+        circleOptions.fillColor = color;
+        drawingManager.set('circleOptions', circleOptions);
+
+        var polygonOptions = drawingManager.get('polygonOptions');
+        polygonOptions.fillColor = color;
+        drawingManager.set('polygonOptions', polygonOptions);
+    }
+
+    function setSelectedShapeColor (color) {
+        if (selectedShape) {
+            if (selectedShape.type == google.maps.drawing.OverlayType.POLYLINE) {
+                selectedShape.set('strokeColor', color);
+            } else {
+                selectedShape.set('fillColor', color);
+            }
+        }
+    }
+
+    function makeColorButton (color) {
+        var button = document.createElement('span');
+        button.className = 'color-button';
+        button.style.backgroundColor = color;
+        google.maps.event.addDomListener(button, 'click', function () {
+            selectColor(color);
+            setSelectedShapeColor(color);
+        });
+
+        return button;
+    }
+
+    function buildColorPalette () {
+        var colorPalette = document.getElementById('color-palette');
+        for (var i = 0; i < colors.length; ++i) {
+            var currColor = colors[i];
+            var colorButton = makeColorButton(currColor);
+            colorPalette.appendChild(colorButton);
+            colorButtons[currColor] = colorButton;
+        }
+        selectColor(colors[0]);
+    }
+
+
+    var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat:  5.94851, lng: 80.53528},
+            zoom: 15
+
+        });
+
+
+        var polyOptions = {
+            strokeWeight: 0,
+            fillOpacity: 0.45,
+            editable: true,
+            draggable: true
+        };
+        // Creates a drawing manager attached to the map that allows the user to draw
+        // markers, lines, and shapes.
+        drawingManager = new google.maps.drawing.DrawingManager({
+            drawingMode: google.maps.drawing.OverlayType.POLYGON,
+            markerOptions: {
+                draggable: true
+            },
+            polylineOptions: {
+                editable: true,
+                draggable: true
+            },
+            rectangleOptions: polyOptions,
+            circleOptions: polyOptions,
+            polygonOptions: polyOptions,
+            map: map
+        });
+
+        google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
+            var newShape = e.overlay;
+
+            newShape.type = e.type;
+
+            if (e.type !== google.maps.drawing.OverlayType.MARKER) {
+                // Switch back to non-drawing mode after drawing a shape.
+                drawingManager.setDrawingMode(null);
+
+                // Add an event listener that selects the newly-drawn shape when the user
+                // mouses down on it.
+                google.maps.event.addListener(newShape, 'click', function (e) {
+                    if (e.vertex !== undefined) {
+                        if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
+                            var path = newShape.getPaths().getAt(e.path);
+                            path.removeAt(e.vertex);
+                            if (path.length < 3) {
+                                newShape.setMap(null);
+                            }
+                        }
+                        if (newShape.type === google.maps.drawing.OverlayType.POLYLINE) {
+                            var path = newShape.getPath();
+                            path.removeAt(e.vertex);
+                            if (path.length < 2) {
+                                newShape.setMap(null);
+                            }
+                        }
+                    }
+                    setSelection(newShape);
+                });
+                setSelection(newShape);
+            }
+            else {
+                google.maps.event.addListener(newShape, 'click', function (e) {
+                    setSelection(newShape);
+                });
+                setSelection(newShape);
+            }
+        });
+
+        // Clear the current selection when the drawing mode is changed, or when the
+        // map is clicked.
+        google.maps.event.addListener(drawingManager, 'drawingmode_changed', clearSelection);
+        google.maps.event.addListener(map, 'click', clearSelection);
+        google.maps.event.addDomListener(document.getElementById('delete-button'), 'click', deleteSelectedShape);
+
+        buildColorPalette();
+
+    }
+</script>
+
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA&libraries=drawing&callback=initMap">
+</script>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap-4.0.0.js"></script>
+
+
+
+</body>
+</html>
