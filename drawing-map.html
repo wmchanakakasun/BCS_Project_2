@@ -1,0 +1,301 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untitled Document</title>
+    <link href="css/bootstrap-4.0.0.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+</head>
+
+<body style="padding-top: 70px">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light"> <a class="navbar-brand" href="#"><img class="nav_bar_icon" src="img/nav_bar_icon.png" alt="brand-image"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
+            <li class="nav-item"> <a class="nav-link" href="map.html">Map</a> </li>
+            <li class="nav-item"> <a class="nav-link" href="#">Statistics</a> </li>
+            <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">List Incidents </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    <a class="dropdown-item" href="type1.html">Real-time</a>
+                    <a class="dropdown-item" href="type2.html">Static</a>
+                </div>
+            </li>
+            <li class="nav-item"> <a class="nav-link" href="signup.html">Create Account</a> </li>
+            <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Users </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" href="#">System Admins</a>
+                    <a class="dropdown-item" href="#">Reporters</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <a href="user.html"><img src="img/avatar.png" alt="avatar" class="rounded-circle" style="width: 50px;padding-right: 10px "></a>
+
+            <button id="btn-logout"  class="btn btn-outline-success my-2 my-sm-0" type="submit">logout</button>
+        </form>
+    </div>
+</nav>
+<div class="container-fluid ">
+    <div class="row">
+
+        <div  id="map" class="home-left col-12 col-lg-10"></div>
+        <div class="home-right col-12 col-lg-2">
+            <select id="slt-incdnt-type" class="form-control form-control-sm mt-2">
+                <option>select</option>
+                <option value="blackspot">Blackspot</option>
+                <option value="traffic-sign">Traffic Sign</option>
+                <option value="speed-limit">Speed Limit</option>
+                <option value="critical-location">Critical Location</option>
+            </select>
+            <div id="panel" class="mt-4">
+                <div id="display" class="mt-4"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var map;
+    var marker;
+    var circle;
+    var msg;
+    var str ="";
+    function initMap() {
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: {lat: 5.94851, lng: 80.53528}
+        });
+
+    }
+
+    $('#slt-incdnt-type').on('change', function() {
+        $('#panel').html("");
+        $('#panel').html('<div style="bgcolor:#e6e6fa" id="display" class="mt-4"></div>');
+        if(marker){
+            marker.setMap(null);
+        }
+        if(circle){
+            circle.setMap(null);
+        }
+
+        if(this.value === 'blackspot' ){
+            $('#panel').prepend('<button id="btn-draw" class="btn ">Draw</button>');
+            $('#btn-draw').click(() =>{
+                if(marker){
+                    marker.setMap(null);
+                }
+                if(circle){
+                    circle.setMap(null);
+                }
+                google.maps.event.addListener(map, 'click', function(event) {
+
+                     circle = new google.maps.Circle({
+                        strokeColor: '#ffa22f',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#ffa22f',
+                        fillOpacity: 0.35,
+                        editable:true,
+                        map: map,
+                        center: event.latLng,
+                        radius: 3000,
+                    });
+
+                    google.maps.event.clearListeners(map, 'click');
+                    $("#display").html("Center: <br>"+circle.getCenter()+"<br>"+
+                                        "Radius: <br>"+circle.getRadius());
+
+                    google.maps.event.addListener(circle, 'radius_changed', function() {
+                     $("#display").html("Center: <br>"+circle.getCenter()+"<br>"+
+                                        "Radius: <br>"+circle.getRadius());
+                    });
+                    google.maps.event.addListener(circle, 'center_changed', function() {
+                    $("#display").html("Center: <br>"+circle.getCenter()+"<br>"+
+                                        "Radius: <br>"+circle.getRadius());
+                    })
+
+                    $("#panel").append('<div class="form-group">' +
+                        '<label >Message:</label>' +
+                        '<textarea class="form-control" rows="5" id="comment"></textarea>' +
+                        '</div>'+
+                        '<button class="btn">Submit</button>'
+                    );
+                })
+
+            })
+        }
+        else if(this.value === 'traffic-sign' ){
+            $("#panel").prepend('<select id="slt-roadsign" class="form-control form-control-sm">'+
+                            '<option value="pedestrian-crossing">Pedestrian Crossing</option>' +
+                            '<option value="slippery-road">Slippery Road</option>' +
+                            '<option value="children-crossing">Children Crossing</option>' +
+                            '<option value="railway-crossing">Railway Crossing</option>' +
+                            '<option value="light-signals"> Light Signals </option>' +
+                            '<option value="roundabout ">Roundabout </option>' +
+                            '</select><br>'+
+                            '<button id="btn-draw" class="btn ">Draw</button>');
+
+            $('#btn-draw').click(() =>{
+                if(marker){
+                    marker.setMap(null);
+                }
+                if(circle){
+                    circle.setMap(null);
+                }
+
+                google.maps.event.addListener(map, 'click', function(event) {
+
+                    google.maps.event.clearListeners(map, 'click');
+                    addMarker(event.latLng ,$("#slt-roadsign option:checked").val(), map);
+                    var location = event.latLng;
+                    $("#display").html('location: <br>'+location);
+                    $("#panel").append('<div class="form-group">' +
+                                    '<label >Message:</label>' +
+                                    '<textarea class="form-control" rows="5" id="comment"></textarea>' +
+                                    '</div>'+
+                                    '<button class="btn">Submit</button>'
+                    );
+
+                })
+            })
+        }
+        else if(this.value === 'speed-limit' ){
+            $('#panel').prepend('<button id="btn-draw" class="btn ">Draw</button>');
+            $('#btn-draw').click(() =>{
+                if(marker){
+                    marker.setMap(null);
+                }
+                if(circle){
+                    circle.setMap(null);
+                }
+                google.maps.event.addListener(map, 'click', function(event) {
+
+                    circle = new google.maps.Circle({
+                        strokeColor: '#ff2217',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#ff2217',
+                        fillOpacity: 0.35,
+                        editable:true,
+                        map: map,
+                        center: event.latLng,
+                        radius: 3000,
+                    });
+
+                    google.maps.event.clearListeners(map, 'click');
+                    $("#display").html("Center: <br>"+circle.getCenter()+"<br>"+
+                        "Radius: <br>"+circle.getRadius());
+
+                    google.maps.event.addListener(circle, 'radius_changed', function() {
+                        $("#display").html("Center: <br>"+circle.getCenter()+"<br>"+
+                            "Radius: <br>"+circle.getRadius());
+                    });
+                    google.maps.event.addListener(circle, 'center_changed', function() {
+                        $("#display").html("Center: <br>"+circle.getCenter()+"<br>"+
+                            "Radius: <br>"+circle.getRadius());
+                    })
+
+                    $("#panel").append('<div class="form-group">' +
+                        '  <label >Speed Limit:</label>' +
+                        '  <input type="text" class="form-control" >' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '  <label for="pwd">Threshold Limit:</label>' +
+                        '  <input type="text" class="form-control" >' +
+                        '</div>'+
+                        '<button class="btn">Submit</button>'
+                    );
+
+
+                })
+
+            })
+        }
+        else if(this.value === 'critical-location' ){
+            $('#panel').prepend('<button id="btn-draw" class="btn ">Draw</button>');
+            $('#btn-draw').click(() =>{
+                if(marker){
+                    marker.setMap(null);
+                }
+                if(circle){
+                    circle.setMap(null);
+                }
+                google.maps.event.addListener(map, 'click', function(event) {
+
+                    circle = new google.maps.Circle({
+                        strokeColor: '#9317ff',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#9317ff',
+                        fillOpacity: 0.35,
+                        editable:true,
+                        map: map,
+                        center: event.latLng,
+                        radius: 3000,
+                    });
+
+                    google.maps.event.clearListeners(map, 'click');
+                    $("#display").html("Center: <br>"+circle.getCenter()+"<br>"+
+                        "Radius: <br>"+circle.getRadius());
+
+                    google.maps.event.addListener(circle, 'radius_changed', function() {
+                        $("#display").html("Center: <br>"+circle.getCenter()+"<br>"+
+                            "Radius: <br>"+circle.getRadius());
+                    });
+                    google.maps.event.addListener(circle, 'center_changed', function() {
+                        $("#display").html("Center: <br>"+circle.getCenter()+"<br>"+
+                            "Radius: <br>"+circle.getRadius());
+                    })
+
+                    $("#panel").append('<div class="form-group">' +
+                        '<label >Message:</label>' +
+                        '<textarea class="form-control" rows="5" id="comment"></textarea>' +
+                        '</div>'+
+                        '<button class="btn">Submit</button>'
+                    );
+
+
+                })
+
+            })
+        }
+        else
+         alert("error");
+    });
+
+    // Adds a marker to the map.
+    function addMarker(location,sign,map) {
+        // Add the marker at the clicked location
+         marker = new google.maps.Marker({
+             position: location,
+             map: map,
+             //icon:'./img/'+sign+'.png',
+        });
+    }
+
+
+
+
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA&callback=initMap">
+</script>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap-4.0.0.js"></script>
+
+
+</body>
+</html>

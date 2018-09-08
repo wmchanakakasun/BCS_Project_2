@@ -96,14 +96,7 @@ h1{
 	height: 100vh;
 	
 }
-.user-left{
-	width: 25%;
-	height: 100vh;
-	padding-top: 150px;
-	text-align: center;
-	background: #9C9393;
-	float:left;
-}
+
 #accordion {
 	position: relative;
 }
@@ -113,16 +106,17 @@ h1{
 	top: 10px;
 }
 
-/*////profile image change begin */
-
-
-
-/*////profile image change end */
-.user-right{
-	width: 75%;
-	float: left;
-	
+/*////user page begin */
+#change-image {
+	color:#b1dfbb;
 }
+#change-image:hover {
+	color: green;
+
+}
+
+/*////user page end */
+
 /*---------------------
     navbar
  */
