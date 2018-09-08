@@ -46,7 +46,7 @@
 	<div class="row">
         
 		<!-- news feeder begin -->
-		<div class="home-right col-12 col-lg-5">
+		<div class="home-right col-12 col-lg-5" >
  	 		<h1>news feeder</h1>
                 <div id="accordion"></div>
 	   </div>
@@ -82,6 +82,7 @@
 
 
     const dbRefObject = firebase.database().ref();
+
     dbRefObject.orderByChild("time").limitToLast(4).on('child_added', snap => {
         dataArray[i] = snap.val();
         let cardHtml = '<div id="cardItem'+i+'" class="card mb-1" style="display: none">'+
@@ -106,7 +107,7 @@
             '</div>'+
             '<div id="collapse'+i+'" class="collapse hide" aria-labelledby="heading'+i+'" data-parent="#accordion">'+
             '<div class="card-body">'+
-            '<img src="img/avatar.png">'+
+            '<img id="img'+i+'" src="" width="100%">'+
             '</div>'+
             '</div>'+
             '</div>';
@@ -123,11 +124,29 @@
 
 
         }else{
+            $("#accordion .card:last").hide(1000,function () { $(this).remove() });
             $("#accordion").prepend(cardHtml);
             $("#accordion .card:first").show(1000);//remove the multified i since higher i s get slower to show cards
         }
 
-        let d=i; //let type allows to assign right value to callback function.
+
+        let d=i; //'let' variable type allows to assign right value to callback function.
+
+        /**
+         * view incident photo
+         */
+        firebase.storage().ref('car.jpg').getDownloadURL().then(function(url) {
+                // `url` is the download URL
+                console.log(url);
+                $("#img"+d).attr("src",url);
+            }).catch(function(error) {
+                // Handle any errors
+            });
+
+
+
+
+
         document.getElementById("btn-card-rmv"+i).addEventListener("click", function() {
             firebase.database().ref(dataArray[d].incident_id).remove();
             foo++;
