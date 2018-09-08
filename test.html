@@ -1,72 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="css/bootstrap-4.0.0.css" rel="stylesheet" type="text/css">
-    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8uV_MHyET9NGBxppaCETysQ8-McYfUZA&callback=initMap"></script>
-    <style>
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-        #map {
-            height: 100%;
-        }
-        /* Optional: Makes the sample page fill the window. */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 
 </head>
 <body>
 
-    <textarea id="display" rows="4" cols="50">
-
-    </textarea>
-
-<div id="map"></div>
-
-
-
+<button>Send an HTTP POST request to a page and get the result back</button>
 
 
 <script>
+    /*   $(document).ready(function(){
+          $("button").click(function() {
+
+              $.post("http://206.189.91.154:8081/open/find/roadsign", {"latitude": "42.2584", "longitude": "89.2578"})
+                  .done(function (data) {
+                      alert("Data Loaded: " + data);
+                  });
+          });
+       });
+*/
+
+   /* $.get("http://192.168.8.103:8081/open")
+        .done(function (data) {
+            alert("Data Loaded: " + data);
+        });*/
+
+  /*  axios.post('http://192.168.8.103:8081/open')
+        .then(function (response) {
+            console.log(response);
+        })
 
 
-function initMap() {
+*/
 
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: {lat: 5.94851, lng: 80.53528}
-    });
-    var str ="";
+   /* axios.post('http://192.168.8.103:8081/open', {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(function (response) {
+            console.log(response);
+        })
 
-    // This event listener calls addMarker() when the map is clicked.
-    google.maps.event.addListener(map, 'click', function(event) {
-    addMarker(event.latLng, map);
-     str = str +event.latLng;
-    $("#display").html(str);
 
-    });
+*/
+  var data = JSON.parse('{"latitude": 42.2584, "longitude": 89.2578}');
+  //var data = JSON.parse(data);
+  //console.log(data);
+    axios.post('http://192.168.8.103:8081/open/find/roadsign',data,{
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    }).then(function (response) {
+        console.log(response);
+    })
 
-}
+   /* fetch('http://206.189.91.154:8081/open/find/roadsign', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            latitude: 42.2584,
+            longitude: 89.2578
+        })
+    })
+*/
 
-// Adds a marker to the map.
-function addMarker(location, map) {
-    // Add the marker at the clicked location
-   var marker = new google.maps.Marker({
-    position: location,
-    map: map
-});
-}
+    /*var data ={ "latitude": 42.2584, "longitude": 89.2578 };
+           $.ajax({
+               type: 'POST',
+               url: "http://206.189.91.154:8081/open/find/roadsign",
+               contentType : "application/json",
+               dataType: 'json',
+               cache: false,
+               timeout: 600000,
+               data: JSON.stringify(data)
+
+           });*/
+
 
 
 </script>
-
 </body>
-
 </html>

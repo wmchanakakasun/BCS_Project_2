@@ -30,24 +30,7 @@
     const dbRefObject = firebase.database().ref();
 
 
-   /* firebase.database().ref().child('real_time_data').push({
-        latitude:5.94851,
-        longitude:81.53528
-    });
-    firebase.database().ref().child('real_time_data').push({
-        latitude:7.34851,
-        longitude:81.53528
-    });
-    firebase.database().ref().child('real_time_data').push({
-        latitude:6.9271,
-        longitude:79.8612
-    }); */
-  /*  const ref= firebase.database().ref().child('real_time_data').push({
-        id:ref.key,
-        latitude: 5.9271,
-        longitude: 76.8612
 
-    })*/
    // const refkey= firebase.database().ref().child('real_time_data').push().key;
     var refkey= firebase.database().ref().push().key;
     firebase.database().ref(refkey).set({
@@ -90,7 +73,7 @@
         latitude: 6.51851,
         longitude: 81.28528,
         time: "2018-08-08 23:03:42"
-    })/*
+    })
     refkey= firebase.database().ref().push().key;
     firebase.database().ref(refkey).set({
         incident_id: refkey,
@@ -107,7 +90,7 @@
         longitude: 81.28528,
         time: "2018-08-01 22:03:42"
     })
-    */
+
 
 </script>
 </body>

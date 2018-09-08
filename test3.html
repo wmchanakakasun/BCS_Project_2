@@ -21,8 +21,8 @@
 
 
         .color-button {
-            width: 14px;
-            height: 14px;
+            width: 25px;
+            height: 25px;
             font-size: 0;
             margin: 2px;
             float: left;
@@ -76,6 +76,9 @@
                 <div>
                     <button id="delete-button">Delete Selected Shape</button>
                 </div>
+            </div>
+            <div>
+                <textarea rows="4" cols="15"> </textarea>
             </div>
         </div>
 
@@ -209,7 +212,6 @@
 
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
             var newShape = e.overlay;
-
             newShape.type = e.type;
 
             if (e.type !== google.maps.drawing.OverlayType.MARKER) {
@@ -219,6 +221,7 @@
                 // Add an event listener that selects the newly-drawn shape when the user
                 // mouses down on it.
                 google.maps.event.addListener(newShape, 'click', function (e) {
+
                     if (e.vertex !== undefined) {
                         if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
                             var path = newShape.getPaths().getAt(e.path);
@@ -229,12 +232,14 @@
                         }
                         if (newShape.type === google.maps.drawing.OverlayType.POLYLINE) {
                             var path = newShape.getPath();
+
                             path.removeAt(e.vertex);
                             if (path.length < 2) {
                                 newShape.setMap(null);
                             }
                         }
                     }
+
                     setSelection(newShape);
                 });
                 setSelection(newShape);
